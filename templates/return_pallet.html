@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Return / Mix-Lot on {{ pallet.id }}{% endblock %}
+{% block content %}
+  <h1 class="text-2xl font-semibold mb-4">Return / Mix-Lot for {{ pallet.id }}</h1>
+
+  <form method="POST" class="bg-white shadow rounded p-6 space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Select Base Lot</label>
+      <select name="lot_id" required class="mt-1 block w-full border rounded px-2 py-1">
+        {% for lot in pallet.lots %}
+        <option value="{{ lot.id }}">
+          {{ lot.lot }} — {{ lot.qty }} {{ lot.unit }} — expires {{ lot.expiration_date }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Returned Qty</label>
+      <input name="qty" type="number" min="1" required
+             class="mt-1 block w-full border rounded px-2 py-1 text-right" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Lot # for Returned Material</label>
+      <input name="lot" required
+             class="mt-1 block w-full border rounded px-2 py-1" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Unit</label>
+      <select name="unit" required
+              class="mt-1 block w-full border rounded px-2 py-1">
+        <option value="LBS">LBS</option>
+        <option value="KGS">KGS</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Expiration Date</label>
+      <input name="expiration_date" type="date" required
+             class="mt-1 block w-full border rounded px-2 py-1" />
+    </div>
+    <div class="text-right">
+      <button type="submit"
+              class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        Record Return
+      </button>
+    </div>
+  </form>
+{% endblock %}

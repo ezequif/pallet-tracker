@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scan Pallet</title>
+  <script src="https://unpkg.com/quagga/dist/quagga.min.js"></script>
+  <style>
+    body { margin:0; font-family:sans-serif; text-align:center; }
+    #interactive { width:100%; height:100vh; position:relative; }
+    canvas, video { max-width:100%; width:100%; }
+    #message { position:absolute; top:10px; left:50%; transform:translateX(-50%);
+               background:rgba(0,0,0,0.6); color:white; padding:4px 8px; }
+    /* hidden input covers full screen but invisible */
+    #scannerInput {
+      position: absolute;
+      top:0; left:0; width:100%; height:100vh;
+      opacity:0; font-size:1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="interactive" class="viewport">
+    <div id="message">
+      • Use hardware scanner OR<br>point camera at a barcode…
+    </div>
+  </div>
+  <!-- Invisible full-screen input for TC70 hardware scans -->
+  <input id="scannerInput" autocomplete="off" autofocus />
+
+  <script>
+    // PART 1: QuaggaJS camera fallback
+    Quagga.init({
+      inputStream: {
+        type : "LiveStream",
+        constraints: { facingMode: "environment" },
+        target: document.querySelector('#interactive')
+      },
+      decoder: { readers: ["code_128_reader"] }
+    }, err => {
+      if (!err) Quagga.start();
+    });
+    Quagga.onDetected(data => {
+      Quagga.stop();
+      redirect(data.codeResult.code);
+    });
+
+    // PART 2: Hardware‐scanner mode
+    const input = document.getElementById('scannerInput');
+    let buffer = "";
+    input.addEventListener('keydown', e => {
+      // usually scanners send characters then an "Enter" key
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (buffer) {
+          redirect(buffer);
+          buffer = "";
+        }
+      } else {
+        // append anything that's a printed character
+        buffer += e.key;
+      }
+    });
+
+    function redirect(code) {
+      window.location = `/pallets/${encodeURIComponent(code)}`;
+    }
+  </script>
+
+</body>
+</html>

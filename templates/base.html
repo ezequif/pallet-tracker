@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Warehouse Tracker{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+  <nav class="bg-white shadow mb-6">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="{{ url_for('index') }}"
+         class="text-2xl font-bold text-indigo-600 hover:text-indigo-800">
+        Warehouse Tracker
+      </a>
+      <a href="{{ url_for('create_pallet') }}"
+         class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+        Receive Pallet
+      </a>
+
+        <a href="{{ url_for('scan_pallet') }}"
+   class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600">
+  Scan Pallet
+</a>
+
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container mx-auto px-4 mb-4">
+        {% for category, msg in messages %}
+          <div class="p-3 mb-2 rounded {{ category=='success'
+              and 'bg-green-100 text-green-800'
+              or 'bg-red-100 text-red-800' }}">
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main class="container mx-auto px-4">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>

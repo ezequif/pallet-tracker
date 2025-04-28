@@ -1,0 +1,5 @@
+/* style.css */
+.container { max-width: 900px; }
+button:focus { outline: none; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); }
+tbody tr:hover { background-color: #f3f4f6; }
+table thead th { font-weight: 600; }

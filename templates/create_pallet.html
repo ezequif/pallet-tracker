@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Receive New Pallet{% endblock %}
+{% block content %}
+  <h1 class="text-3xl font-semibold mb-4">Receive New Pallet</h1>
+
+  <form method="POST" class="bg-white shadow rounded p-6 space-y-4">
+    <!-- Pallet ID -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Pallet ID</label>
+      <input name="pallet_id" value="{{ next_id }}" readonly
+             class="mt-1 block w-full bg-gray-100 border rounded px-2 py-1" />
+    </div>
+
+    <!-- RM# -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">RM#</label>
+      <input name="rm_number" required
+             class="mt-1 block w-full border rounded px-2 py-1"
+             placeholder="Enter raw material number" />
+    </div>
+
+    <!-- Location -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Location</label>
+      <input name="location" required
+             class="mt-1 block w-full border rounded px-2 py-1"
+             placeholder="e.g. A5-B2-L1" />
+    </div>
+
+    <!-- Lots / Units / Expirations -->
+    <div>
+      <h2 class="text-lg font-medium mb-2">Lots, Units & Expirations</h2>
+      <div id="lots-container" class="space-y-2"></div>
+      <button type="button" onclick="addLotRow()"
+              class="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+        + Add Lot
+      </button>
+    </div>
+
+    <!-- Submit -->
+    <div class="text-right">
+      <button type="submit"
+              class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+        Save Pallet
+      </button>
+    </div>
+  </form>
+
+  <script>
+    function addLotRow() {
+      const c = document.getElementById('lots-container');
+      c.insertAdjacentHTML('beforeend', `
+        <div class="flex space-x-2 items-end">
+          <!-- Lot # -->
+          <div class="flex-1">
+            <label class="block text-sm">Lot #</label>
+            <input name="lot" required
+                   class="mt-1 block w-full border rounded px-2 py-1"
+                   placeholder="e.g. A123" />
+          </div>
+          <!-- Qty -->
+          <div class="w-24">
+            <label class="block text-sm">Qty</label>
+            <input name="qty" type="number" min="1" required
+                   class="mt-1 block w-full border rounded px-2 py-1 text-right"
+                   placeholder="0" />
+          </div>
+          <!-- Unit -->
+          <div class="w-20">
+            <label class="block text-sm">Unit</label>
+            <select name="unit" required
+                    class="mt-1 block w-full border rounded px-2 py-1">
+              <option value="LBS">LBS</option>
+              <option value="KGS">KGS</option>
+            </select>
+          </div>
+          <!-- Expiration -->
+          <div class="w-40">
+            <label class="block text-sm">Expires</label>
+            <input name="expiration_date" type="date" required
+                   class="mt-1 block w-full border rounded px-2 py-1" />
+          </div>
+          <!-- Remove Row -->
+          <button type="button" onclick="this.parentElement.remove()"
+                  class="text-red-600 hover:text-red-900 text-xl leading-none">
+            &times;
+          </button>
+        </div>
+      `);
+    }
+    window.addEventListener('DOMContentLoaded', addLotRow);
+  </script>
+{% endblock %}

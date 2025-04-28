@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}All Pallets{% endblock %}
+{% block content %}
+  <h1 class="text-3xl font-semibold mb-4">All Pallets</h1>
+  <table class="min-w-full bg-white shadow rounded overflow-hidden">
+    <thead class="bg-indigo-100">
+      <tr>
+        <th class="px-4 py-2 text-left">Pallet ID</th>
+        <th class="px-4 py-2 text-left">RM#</th>
+        <th class="px-4 py-2 text-left">Location</th>
+        <th class="px-4 py-2">&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pallets %}
+      <tr class="border-b hover:bg-gray-50">
+        <td class="px-4 py-2">{{ p.id }}</td>
+        <td class="px-4 py-2">{{ p.rm_number }}</td>
+        <td class="px-4 py-2">{{ p.location }}</td>
+        <td class="px-4 py-2 text-right">
+          <a href="{{ url_for('pallet_detail', pallet_id=p.id) }}"
+             class="text-indigo-600 hover:underline">View</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

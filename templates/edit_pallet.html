@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Edit Pallet {{ pallet.id }}{% endblock %}
+{% block content %}
+  <h1 class="text-2xl font-semibold mb-4">Edit Pallet {{ pallet.id }}</h1>
+  <form method="POST" class="bg-white shadow rounded p-6 space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">RM#</label>
+      <input name="rm_number" value="{{ pallet.rm_number }}" required
+             class="mt-1 block w-full border rounded px-2 py-1" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Location</label>
+      <input name="location" value="{{ pallet.location }}" required
+             class="mt-1 block w-full border rounded px-2 py-1" />
+    </div>
+    <div class="text-right">
+      <button type="submit"
+              class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+        Save Changes
+      </button>
+    </div>
+  </form>
+{% endblock %}

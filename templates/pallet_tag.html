@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tag {{ pallet.id }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <style>
+    /* Ensure no browser margins when printing */
+    @page { margin: 0; }
+    body { margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+    .label {
+      /* Real‐world size */
+      width: 8in;
+      height: 2.5in;
+      /* Styling */
+      background: #fff;
+      border: 2px solid #000;
+      box-sizing: border-box;
+      padding: 0.25in;      /* ¼" padding inside */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: sans-serif;
+    }
+    .code {
+      font-size: 24pt;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 0.1in;
+    }
+    svg {
+      width: 100%;
+      height: auto;
+      flex-shrink: 0;
+    }
+    @media print {
+      /* Print exactly the label, no extra margins */
+      body { margin: 0; }
+      .label { border: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="label">
+    <div class="code">{{ pallet.id }}</div>
+    <svg id="barcode"></svg>
+  </div>
+
+  <script>
+    JsBarcode("#barcode", "{{ pallet.id }}", {
+      format: "CODE128",
+      lineColor: "#000",
+      width: 2,
+      height: 60,
+      displayValue: false
+    });
+    window.onload = () => window.print();
+  </script>
+</body>
+</html>
